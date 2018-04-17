@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-invoice-builder',
   template: `
-    invoice builder works!
+   <app-side-nav></app-side-nav>
   `,
   styles: []
 })
