@@ -1,2 +1,14 @@
-<app-toolbar></app-toolbar>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="app-sidenav-container">
+  <mat-sidenav class="app-sidenav"
+   #sidenav>
+   Great!
+  </mat-sidenav>
+  <div class="app-sidenav-content">
+      <app-toolbar></app-toolbar>
+      <router-outlet></router-outlet>
+    <button type="button" mat-button
+    (click) ="sidenav.open()">
+     Open Sidenav
+    </button>
+  </div>
+</mat-sidenav-container>
