@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { MaterialModule } from '../shared/material.module';
+import { MainContentComponent } from './components/main-content/main-content.component';
 import { InvoiceBuilderRoutingModule } from './invoice-builder-routing.module';
 import { InvoiceBuilderComponent } from './invoice-builder.component';
-import { MainContentComponent } from './components/main-content/main-content.component';
-import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { MaterialModule } from '../shared/material.module';
+
 
 @NgModule({
   imports: [
@@ -13,6 +12,6 @@ import { MaterialModule } from '../shared/material.module';
     InvoiceBuilderRoutingModule,
     MaterialModule
   ],
-  declarations: [InvoiceBuilderComponent, MainContentComponent, SideNavComponent]
+  declarations: [InvoiceBuilderComponent, MainContentComponent]
 })
 export class InvoiceBuilderModule { }
