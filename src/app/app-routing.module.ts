@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [{
-  path : 'invoice-builder',
-  loadChildren: 'app/invoice-builder/invoice-builder.module#InvoiceBuilderModule'
+  path : 'dashboard',
+  loadChildren: 'app/dashboard/dashboard.module#DashboardModule'
 },{
   path : '**',
-  redirectTo: 'invoice-builder'
+  redirectTo: 'dashboard'
 }];
 
 @NgModule({
