@@ -6,12 +6,14 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
+import { InvoicesModule } from '../invoices/invoices.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    InvoicesModule,
     MaterialModule
   ],
   declarations: [DashboardComponent, MainContentComponent, SideNavComponent, ToolbarComponent]
