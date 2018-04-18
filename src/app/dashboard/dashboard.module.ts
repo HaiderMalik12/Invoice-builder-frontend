@@ -7,6 +7,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { InvoicesModule } from '../invoices/invoices.module';
+import { ClientsModule } from '../clients/clients.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { InvoicesModule } from '../invoices/invoices.module';
     CommonModule,
     DashboardRoutingModule,
     InvoicesModule,
-    MaterialModule
+    ClientsModule,
+    MaterialModule,
   ],
   declarations: [DashboardComponent, MainContentComponent, SideNavComponent, ToolbarComponent]
 })
