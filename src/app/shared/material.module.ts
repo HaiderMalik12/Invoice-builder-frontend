@@ -10,7 +10,9 @@ import {
   MatTableModule,
   MatMenuModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 const exportedMatModules = [
   MatButtonModule,
@@ -22,7 +24,9 @@ const exportedMatModules = [
   MatTableModule,
   MatMenuModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ];
 @NgModule({
   imports: [CommonModule, ...exportedMatModules],
