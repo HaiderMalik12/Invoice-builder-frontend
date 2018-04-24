@@ -9,7 +9,7 @@ import { Invoice } from '../../models/invoice';
 })
 export class InvoiceListingComponent implements OnInit {
   constructor(private invocieService: InvoiceService) {}
-  displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax'];
+  displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
 
   ngOnInit() {
