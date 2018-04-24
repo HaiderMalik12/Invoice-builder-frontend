@@ -11,12 +11,12 @@
 
     <ng-container matColumnDef="date">
       <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-      <mat-cell *matCellDef="let invoice"> {{invoice.date}} </mat-cell>
+      <mat-cell *matCellDef="let invoice"> {{invoice.date | date}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="due">
       <mat-header-cell *matHeaderCellDef> Due </mat-header-cell>
-      <mat-cell *matCellDef="let invoice"> {{invoice.due}} </mat-cell>
+      <mat-cell *matCellDef="let invoice"> {{invoice.due | date}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="qty">
