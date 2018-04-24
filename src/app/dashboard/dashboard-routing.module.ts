@@ -10,8 +10,6 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      {path : '',
-      component: MainContentComponent},
       {
         path: 'invoices',
         component: InvoiceListingComponent
@@ -19,6 +17,10 @@ const routes: Routes = [
       {
         path: 'clients',
         component: ClientListingComponent
+      },
+      {
+        path: '**',
+        redirectTo: 'invoices'
       }
     ]
   }
@@ -28,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}
