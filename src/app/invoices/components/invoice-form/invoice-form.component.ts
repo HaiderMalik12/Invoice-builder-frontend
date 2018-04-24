@@ -13,6 +13,10 @@ export class InvoiceFormComponent implements OnInit {
   ngOnInit() {
     this.createForm();
   }
+  onSubmit() {
+    debugger;
+    console.log(this.invoiceForm.value);
+  }
   createForm() {
     this.invoiceForm = this.fb.group({
       item: '',
