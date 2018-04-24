@@ -5,11 +5,12 @@ import { MaterialModule } from '../shared/material.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceService } from './services/invoice.service';
+import { InvoiceFormComponent } from './components/invoice-form/invoice-form.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, HttpClientModule, MaterialModule],
-  declarations: [InvoiceListingComponent],
-  exports: [InvoiceListingComponent],
+  declarations: [InvoiceListingComponent, InvoiceFormComponent],
+  exports: [InvoiceListingComponent, InvoiceFormComponent],
   providers: [InvoiceService]
 })
 export class InvoicesModule {}
