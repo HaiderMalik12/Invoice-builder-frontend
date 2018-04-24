@@ -30,9 +30,7 @@ export class InvoiceFormComponent implements OnInit {
         this.invoiceForm.reset();
         this.router.navigate(['dashboard', 'invoices']);
       },
-      err => {
-        console.error(err);
-      }
+      err => this.errorHandler(err, 'Failed to create Invoice')
     );
   }
   createForm() {
@@ -43,6 +41,12 @@ export class InvoiceFormComponent implements OnInit {
       qty: ['', Validators.required],
       rate: '',
       tax: ''
+    });
+  }
+  private errorHandler(error, message) {
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
     });
   }
 }
