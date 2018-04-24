@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
+import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-invoice-form',
@@ -11,7 +13,9 @@ export class InvoiceFormComponent implements OnInit {
   invoiceForm: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    public snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -20,8 +24,11 @@ export class InvoiceFormComponent implements OnInit {
   onSubmit() {
     this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
       data => {
+        this.snackBar.open('Invoice created!', 'Success', {
+          duration: 2000
+        });
         this.invoiceForm.reset();
-        console.log(data);
+        this.router.navigate(['dashboard', 'invoices']);
       },
       err => {
         console.error(err);
