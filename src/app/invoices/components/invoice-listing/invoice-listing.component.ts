@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-invoice-listing',
@@ -9,7 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./invoice-listing.component.scss']
 })
 export class InvoiceListingComponent implements OnInit {
-  constructor(private invocieService: InvoiceService, private router: Router) { }
+  constructor(
+    private invocieService: InvoiceService,
+    private router: Router,
+    private snackBar: MatSnackBar) { }
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
 
@@ -19,10 +23,10 @@ export class InvoiceListingComponent implements OnInit {
   deleteBtnHandler(id) {
     this.invocieService.deleteInvoice(id)
       .subscribe(data => {
-        console.log(data);
-      }, err => {
-        console.error(err);
-      })
+        this.snackBar.open('Invoice deleted', 'Success', {
+          duration: 2000
+        })
+      }, err => this.errorHandler(err, 'Failed to delete invoice'))
   }
   ngOnInit() {
     this.invocieService.getInvoices().subscribe(
@@ -30,9 +34,12 @@ export class InvoiceListingComponent implements OnInit {
         this.dataSource = data;
         console.log(data);
       },
-      err => {
-        console.error(err);
-      }
-    );
+      err => err => this.errorHandler(err, 'Failed to fetch invoices'));
+  }
+  private errorHandler(error, message) {
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
+    });
   }
 }
