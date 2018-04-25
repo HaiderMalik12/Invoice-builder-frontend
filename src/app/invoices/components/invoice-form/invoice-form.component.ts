@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, ICON_REGISTRY_PROVIDER } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Invoice } from '../../models/invoice';
 
 @Component({
   selector: 'app-invoice-form',
@@ -10,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./invoice-form.component.scss']
 })
 export class InvoiceFormComponent implements OnInit {
+  private invoice: Invoice;
   invoiceForm: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -40,8 +42,16 @@ export class InvoiceFormComponent implements OnInit {
     this.route.params
       .subscribe(params => {
         let id = params['id'];
-        debugger;
-        console.log(id);
+        if (!id) {
+          return;
+        }
+        this.invoiceService.getInvoice(id)
+          .subscribe(invoice => {
+            debugger;
+            this.invoice = invoice;
+            this.invoiceForm.patchValue(this.invoice);
+
+          }, err => this.errorHandler(err, 'Failed to get Invoice'));
       })
 
   }
