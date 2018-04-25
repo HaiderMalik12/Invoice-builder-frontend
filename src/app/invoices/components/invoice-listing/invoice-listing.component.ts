@@ -9,12 +9,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./invoice-listing.component.scss']
 })
 export class InvoiceListingComponent implements OnInit {
-  constructor(private invocieService: InvoiceService, private router: Router) {}
+  constructor(private invocieService: InvoiceService, private router: Router) { }
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
 
   saveBtnHanlder() {
     this.router.navigate(['dashboard', 'invoices', 'new']);
+  }
+  deleteBtnHandler(id) {
+    this.invocieService.deleteInvoice(id)
+      .subscribe(data => {
+        console.log(data);
+      }, err => {
+        console.error(err);
+      })
   }
   ngOnInit() {
     this.invocieService.getInvoices().subscribe(
