@@ -17,4 +17,7 @@ export class InvoiceService {
   deleteInvoice(id: string): Observable<Invoice> {
     return this.httpClient.delete<Invoice>(`${BASE_URL}/invoices/${id}`)
   }
+  getInvoice(id: string): Observable<Invoice> {
+    return this.httpClient.get<Invoice>(`${BASE_URL}/invoices/${id}`)
+  }
 }

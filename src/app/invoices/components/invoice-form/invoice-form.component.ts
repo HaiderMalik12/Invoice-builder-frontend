@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-invoice-form',
@@ -15,11 +15,13 @@ export class InvoiceFormComponent implements OnInit {
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     public snackBar: MatSnackBar,
-    private router: Router
-  ) {}
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.createForm();
+    this.setInvoiceToForm();
   }
   onSubmit() {
     this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
@@ -33,7 +35,17 @@ export class InvoiceFormComponent implements OnInit {
       err => this.errorHandler(err, 'Failed to create Invoice')
     );
   }
-  createForm() {
+  private setInvoiceToForm() {
+    //get the id of the invoice
+    this.route.params
+      .subscribe(params => {
+        let id = params['id'];
+        debugger;
+        console.log(id);
+      })
+
+  }
+  private createForm() {
     this.invoiceForm = this.fb.group({
       item: ['', Validators.required],
       date: ['', Validators.required],
