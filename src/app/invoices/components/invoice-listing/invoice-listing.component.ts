@@ -22,6 +22,10 @@ export class InvoiceListingComponent implements OnInit {
   saveBtnHanlder() {
     this.router.navigate(['dashboard', 'invoices', 'new']);
   }
+  editBtnHandler(id) {
+    debugger;
+    this.router.navigate(['dashboard', 'invoices', id]);
+  }
   deleteBtnHandler(id) {
     this.invocieService.deleteInvoice(id)
       .subscribe(data => {

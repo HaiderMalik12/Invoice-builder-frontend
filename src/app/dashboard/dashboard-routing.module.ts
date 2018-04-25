@@ -19,6 +19,10 @@ const routes: Routes = [
         component: InvoiceFormComponent
       },
       {
+        path: 'invoices/:id',
+        component: InvoiceFormComponent
+      },
+      {
         path: 'clients',
         component: ClientListingComponent
       },
@@ -34,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }
