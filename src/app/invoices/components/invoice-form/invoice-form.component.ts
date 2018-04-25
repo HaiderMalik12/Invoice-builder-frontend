@@ -26,16 +26,29 @@ export class InvoiceFormComponent implements OnInit {
     this.setInvoiceToForm();
   }
   onSubmit() {
-    this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
-      data => {
-        this.snackBar.open('Invoice created!', 'Success', {
-          duration: 2000
-        });
-        this.invoiceForm.reset();
-        this.router.navigate(['dashboard', 'invoices']);
-      },
-      err => this.errorHandler(err, 'Failed to create Invoice')
-    );
+    //user wants to edit the invoice
+    if (this.invoice) {
+      this.invoiceService
+        .updateInvoice(this.invoice._id, this.invoiceForm.value)
+        .subscribe(data => {
+          this.snackBar.open('Invoice updated', 'Success', {
+            duration: 2000
+          });
+          this.router.navigate(['dashboard', 'invoices']);
+        }, err => this.errorHandler(err, 'Failed to update invoice'));
+    }
+    else {
+      this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
+        data => {
+          this.snackBar.open('Invoice created!', 'Success', {
+            duration: 2000
+          });
+          this.invoiceForm.reset();
+          this.router.navigate(['dashboard', 'invoices']);
+        },
+        err => this.errorHandler(err, 'Failed to create Invoice')
+      );
+    }
   }
   private setInvoiceToForm() {
     //get the id of the invoice
@@ -47,7 +60,6 @@ export class InvoiceFormComponent implements OnInit {
         }
         this.invoiceService.getInvoice(id)
           .subscribe(invoice => {
-            debugger;
             this.invoice = invoice;
             this.invoiceForm.patchValue(this.invoice);
 

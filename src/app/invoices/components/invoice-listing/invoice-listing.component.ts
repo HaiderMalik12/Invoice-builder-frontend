@@ -23,7 +23,6 @@ export class InvoiceListingComponent implements OnInit {
     this.router.navigate(['dashboard', 'invoices', 'new']);
   }
   editBtnHandler(id) {
-    debugger;
     this.router.navigate(['dashboard', 'invoices', id]);
   }
   deleteBtnHandler(id) {

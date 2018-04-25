@@ -20,4 +20,7 @@ export class InvoiceService {
   getInvoice(id: string): Observable<Invoice> {
     return this.httpClient.get<Invoice>(`${BASE_URL}/invoices/${id}`)
   }
+  updateInvoice(id: string, body: Invoice) {
+    return this.httpClient.put<Invoice>(`${BASE_URL}/invoices/${id}`, body);
+  }
 }
