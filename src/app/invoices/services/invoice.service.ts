@@ -8,8 +8,8 @@ const BASE_URL = 'http://localhost:3000/api';
 export class InvoiceService {
   constructor(private httpClient: HttpClient) { }
 
-  getInvoices(): Observable<InvoicePaginationRsp> {
-    return this.httpClient.get<InvoicePaginationRsp>(`${BASE_URL}/invoices`);
+  getInvoices({ page, perPage }): Observable<InvoicePaginationRsp> {
+    return this.httpClient.get<InvoicePaginationRsp>(`${BASE_URL}/invoices?page=${page}&perPage=${perPage}`);
   }
   createInvoice(body: Invoice): Observable<Invoice> {
     return this.httpClient.post<Invoice>(`${BASE_URL}/invoices`, body);

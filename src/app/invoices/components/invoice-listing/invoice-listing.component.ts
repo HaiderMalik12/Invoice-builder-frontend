@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator } from '@angular/material';
 import { remove } from 'lodash';
 
 
@@ -20,6 +20,7 @@ export class InvoiceListingComponent implements OnInit {
   dataSource: Invoice[] = [];
   resultsLength = 0;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   saveBtnHanlder() {
     this.router.navigate(['dashboard', 'invoices', 'new']);
   }
@@ -39,16 +40,28 @@ export class InvoiceListingComponent implements OnInit {
       }, err => this.errorHandler(err, 'Failed to delete invoice'))
   }
   ngOnInit() {
+    this.paginator
+      .page
+      .subscribe(data => {
+        debugger;
+        this.invocieService
+          .getInvoices({ page: ++data.pageIndex, perPage: data.pageSize })
+          .subscribe(data => {
+            console.log(data);
+            this.dataSource = data.docs;
+            this.resultsLength = data.total;
+          })
+      }, err => this.errorHandler(err, 'Failed to fetch invoices'))
     this.populateInvoices();
   }
   private populateInvoices() {
-    this.invocieService.getInvoices().subscribe(
+    this.invocieService.getInvoices({ page: 1, perPage: 10 }).subscribe(
       data => {
         this.dataSource = data.docs;
         this.resultsLength = data.total;
         console.log(data);
       },
-      err => err => this.errorHandler(err, 'Failed to fetch invoices'));
+      err => this.errorHandler(err, 'Failed to fetch invoices'));
   }
   private errorHandler(error, message) {
     console.error(error);
