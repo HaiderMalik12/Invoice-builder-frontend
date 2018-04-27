@@ -4,6 +4,7 @@ import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatPaginator } from '@angular/material';
 import { remove } from 'lodash';
+import 'rxjs/Rx';
 
 
 @Component({
@@ -42,16 +43,14 @@ export class InvoiceListingComponent implements OnInit {
   ngOnInit() {
     this.paginator
       .page
+      .flatMap(data => {
+        return this.invocieService.getInvoices({ page: ++data.pageIndex, perPage: data.pageSize })
+      })
       .subscribe(data => {
-        debugger;
-        this.invocieService
-          .getInvoices({ page: ++data.pageIndex, perPage: data.pageSize })
-          .subscribe(data => {
-            console.log(data);
-            this.dataSource = data.docs;
-            this.resultsLength = data.total;
-          })
-      }, err => this.errorHandler(err, 'Failed to fetch invoices'))
+        this.dataSource = data.docs;
+        this.resultsLength = data.total;
+      }, err => this.errorHandler(err, 'Failed to fetch invoices'));
+
     this.populateInvoices();
   }
   private populateInvoices() {
