@@ -13,7 +13,8 @@ import {
   MatInputModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatPaginatorModule
 } from '@angular/material';
 const exportedMatModules = [
   MatButtonModule,
@@ -28,11 +29,12 @@ const exportedMatModules = [
   MatInputModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatPaginatorModule
 ];
 @NgModule({
   imports: [CommonModule, ...exportedMatModules],
   exports: [...exportedMatModules],
   declarations: []
 })
-export class MaterialModule {}
+export class MaterialModule { }

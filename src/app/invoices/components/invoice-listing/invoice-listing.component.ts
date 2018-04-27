@@ -18,6 +18,7 @@ export class InvoiceListingComponent implements OnInit {
     private snackBar: MatSnackBar) { }
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
+  resultsLength = 0;
 
   saveBtnHanlder() {
     this.router.navigate(['dashboard', 'invoices', 'new']);
@@ -38,9 +39,13 @@ export class InvoiceListingComponent implements OnInit {
       }, err => this.errorHandler(err, 'Failed to delete invoice'))
   }
   ngOnInit() {
+    this.populateInvoices();
+  }
+  private populateInvoices() {
     this.invocieService.getInvoices().subscribe(
       data => {
         this.dataSource = data.docs;
+        this.resultsLength = data.total;
         console.log(data);
       },
       err => err => this.errorHandler(err, 'Failed to fetch invoices'));
