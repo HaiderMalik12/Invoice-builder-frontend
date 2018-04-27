@@ -40,7 +40,7 @@ export class InvoiceListingComponent implements OnInit {
   ngOnInit() {
     this.invocieService.getInvoices().subscribe(
       data => {
-        this.dataSource = data;
+        this.dataSource = data.docs;
         console.log(data);
       },
       err => err => this.errorHandler(err, 'Failed to fetch invoices'));
