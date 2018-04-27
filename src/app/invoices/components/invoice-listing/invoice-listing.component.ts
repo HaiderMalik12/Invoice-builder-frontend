@@ -20,6 +20,7 @@ export class InvoiceListingComponent implements OnInit {
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
   resultsLength = 0;
+  isResultsLoading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   saveBtnHanlder() {
@@ -44,25 +45,32 @@ export class InvoiceListingComponent implements OnInit {
     this.paginator
       .page
       .flatMap(data => {
+        this.isResultsLoading = true;
         return this.invocieService.getInvoices({ page: ++data.pageIndex, perPage: data.pageSize })
       })
       .subscribe(data => {
         this.dataSource = data.docs;
         this.resultsLength = data.total;
+        this.isResultsLoading = false;
       }, err => this.errorHandler(err, 'Failed to fetch invoices'));
 
     this.populateInvoices();
   }
   private populateInvoices() {
+    this.isResultsLoading = true
     this.invocieService.getInvoices({ page: 1, perPage: 10 }).subscribe(
       data => {
         this.dataSource = data.docs;
         this.resultsLength = data.total;
         console.log(data);
       },
-      err => this.errorHandler(err, 'Failed to fetch invoices'));
+      err => this.errorHandler(err, 'Failed to fetch invoices'),
+      () => {
+        this.isResultsLoading = false;
+      });
   }
   private errorHandler(error, message) {
+    this.isResultsLoading = false;
     console.error(error);
     this.snackBar.open(message, 'Error', {
       duration: 2000
