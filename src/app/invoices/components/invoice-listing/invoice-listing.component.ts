@@ -60,43 +60,6 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
   }
   ngAfterViewInit() {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    // this.paginator
-    //   .page
-    //   .flatMap(() => {
-    //     this.isResultsLoading = true;
-    //     return this.invocieService.getInvoices({
-    //       page: this.paginator.pageIndex,
-    //       perPage: this.paginator.pageSize,
-    //       sortField: this.sort.active,
-    //       sortDir: this.sort.direction
-    //     })
-    //   })
-    //   .subscribe(data => {
-    //     this.dataSource = data.docs;
-    //     this.resultsLength = data.total;
-    //     this.isResultsLoading = false;
-    //   }, err => this.errorHandler(err, 'Failed to fetch invoices'));
-
-    // this.sort.sortChange.
-    //   flatMap(() => {
-    //     this.isResultsLoading = true;
-    //     this.paginator.pageIndex = 0;
-    //     return this.invocieService.getInvoices({
-    //       page: this.paginator.pageIndex,
-    //       perPage: this.paginator.pageSize,
-    //       sortField: this.sort.active,
-    //       sortDir: this.sort.direction
-    //     })
-    //   })
-    //   .subscribe((data) => {
-    //     this.dataSource = data.docs;
-    //     this.resultsLength = data.total;
-    //     this.isResultsLoading = false;
-    //   }, err => this.errorHandler(err, 'Failed to fetch invoices'));
-
-    // this.populateInvoices();
-
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0)
     merge(this.paginator.page, this.sort.sortChange)
       .pipe(
@@ -128,24 +91,7 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
         this.dataSource.data = data;
       })
   }
-  private populateInvoices() {
-    this.isResultsLoading = true
-    this.invocieService.getInvoices({
-      page: this.paginator.pageIndex,
-      perPage: this.paginator.pageSize,
-      sortField: this.sort.active,
-      sortDir: this.sort.direction
-    }).subscribe(
-      data => {
-        // this.dataSource = data.docs;
-        this.resultsLength = data.total;
-        console.log(data);
-      },
-      err => this.errorHandler(err, 'Failed to fetch invoices'),
-      () => {
-        this.isResultsLoading = false;
-      });
-  }
+
   private errorHandler(error, message) {
     this.isResultsLoading = false;
     console.error(error);
