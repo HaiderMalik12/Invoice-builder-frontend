@@ -65,7 +65,6 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
       .pipe(
         startWith({}),
         switchMap(() => {
-          debugger;
           this.isResultsLoading = true;
           return this.invocieService.getInvoices({
             page: this.paginator.pageIndex,
@@ -75,7 +74,6 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
           })
         }),
         map(data => {
-          debugger;
           this.isResultsLoading = false;
           this.resultsLength = data.total;
           return data.docs;
@@ -87,7 +85,6 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
         })
       )
       .subscribe(data => {
-        debugger;
         this.dataSource.data = data;
       })
   }
