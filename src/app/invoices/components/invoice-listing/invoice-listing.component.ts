@@ -50,9 +50,14 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit {
     //Add 'implements AfterViewInit' to the class.
     this.paginator
       .page
-      .flatMap(data => {
+      .flatMap(() => {
         this.isResultsLoading = true;
-        return this.invocieService.getInvoices({ page: data.pageIndex, perPage: data.pageSize })
+        return this.invocieService.getInvoices({
+          page: this.paginator.pageIndex,
+          perPage: this.paginator.pageSize,
+          sortField: this.sort.active,
+          sortDir: this.sort.direction
+        })
       })
       .subscribe(data => {
         this.dataSource = data.docs;
@@ -60,15 +65,33 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit {
         this.isResultsLoading = false;
       }, err => this.errorHandler(err, 'Failed to fetch invoices'));
 
-    this.sort.sortChange.subscribe(data => {
-      debugger;
-      console.log(data);
-    })
+    this.sort.sortChange.
+      flatMap(() => {
+        this.isResultsLoading = true;
+        this.paginator.pageIndex = 0;
+        return this.invocieService.getInvoices({
+          page: this.paginator.pageIndex,
+          perPage: this.paginator.pageSize,
+          sortField: this.sort.active,
+          sortDir: this.sort.direction
+        })
+      })
+      .subscribe((data) => {
+        this.dataSource = data.docs;
+        this.resultsLength = data.total;
+        this.isResultsLoading = false;
+      }, err => this.errorHandler(err, 'Failed to fetch invoices'));
+
     this.populateInvoices();
   }
   private populateInvoices() {
     this.isResultsLoading = true
-    this.invocieService.getInvoices({ page: 1, perPage: 10 }).subscribe(
+    this.invocieService.getInvoices({
+      page: this.paginator.pageIndex,
+      perPage: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortDir: this.sort.direction
+    }).subscribe(
       data => {
         this.dataSource = data.docs;
         this.resultsLength = data.total;
