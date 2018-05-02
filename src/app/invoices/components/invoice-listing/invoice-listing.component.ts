@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatPaginator } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatSort } from '@angular/material';
 import { remove } from 'lodash';
 import 'rxjs/Rx';
 
@@ -23,6 +23,7 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit {
   isResultsLoading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   saveBtnHanlder() {
     this.router.navigate(['dashboard', 'invoices', 'new']);
   }
@@ -59,6 +60,10 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit {
         this.isResultsLoading = false;
       }, err => this.errorHandler(err, 'Failed to fetch invoices'));
 
+    this.sort.sortChange.subscribe(data => {
+      debugger;
+      console.log(data);
+    })
     this.populateInvoices();
   }
   private populateInvoices() {
