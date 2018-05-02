@@ -52,6 +52,10 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
   ngOnInit() {
 
   }
+  filterText(event: any) {
+    debugger;
+    console.log(event.target.value);
+  }
 
   ngAfterViewChecked() {
     //Called after every check of the component's view. Applies to components only.

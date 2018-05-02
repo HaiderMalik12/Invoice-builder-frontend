@@ -1,5 +1,7 @@
 <mat-toolbar>
-  <h3>Invoices</h3>
+  <mat-form-field color="accent">
+    <input matInput (keyup)="filterText($event)" placeholder="Filter" />
+  </mat-form-field>
   <div class="menu-bar">
     <button mat-button (click)="saveBtnHanlder()">
       New Invoice
