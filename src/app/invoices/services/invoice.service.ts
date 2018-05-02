@@ -9,7 +9,7 @@ export class InvoiceService {
   constructor(private httpClient: HttpClient) { }
 
   getInvoices({ page, perPage }): Observable<InvoicePaginationRsp> {
-    return this.httpClient.get<InvoicePaginationRsp>(`${BASE_URL}/invoices?page=${page}&perPage=${perPage}`);
+    return this.httpClient.get<InvoicePaginationRsp>(`${BASE_URL}/invoices?page=${page + 1}&perPage=${perPage}`);
   }
   createInvoice(body: Invoice): Observable<Invoice> {
     return this.httpClient.post<Invoice>(`${BASE_URL}/invoices`, body);

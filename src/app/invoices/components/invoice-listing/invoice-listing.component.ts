@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import 'rxjs/Rx';
   templateUrl: './invoice-listing.component.html',
   styleUrls: ['./invoice-listing.component.scss']
 })
-export class InvoiceListingComponent implements OnInit {
+export class InvoiceListingComponent implements OnInit, AfterViewInit {
   constructor(
     private invocieService: InvoiceService,
     private router: Router,
@@ -42,11 +42,16 @@ export class InvoiceListingComponent implements OnInit {
       }, err => this.errorHandler(err, 'Failed to delete invoice'))
   }
   ngOnInit() {
+
+  }
+  ngAfterViewInit() {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
     this.paginator
       .page
       .flatMap(data => {
         this.isResultsLoading = true;
-        return this.invocieService.getInvoices({ page: ++data.pageIndex, perPage: data.pageSize })
+        return this.invocieService.getInvoices({ page: data.pageIndex, perPage: data.pageSize })
       })
       .subscribe(data => {
         this.dataSource = data.docs;
