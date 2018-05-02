@@ -52,9 +52,22 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
   ngOnInit() {
 
   }
-  filterText(event: any) {
-    debugger;
-    console.log(event.target.value);
+  filterText(filterValue: string) {
+    this.isResultsLoading = true;
+    filterValue = filterValue.trim()
+    this.paginator.pageIndex = 0;
+    this.invocieService.getInvoices({
+      page: this.paginator.pageIndex,
+      perPage: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortDir: this.sort.direction,
+      filter: filterValue
+    })
+      .subscribe(data => {
+        this.dataSource.data = data.docs;
+        this.resultsLength = data.total;
+        this.isResultsLoading = false;
+      }, err => this.errorHandler(err, 'Failed to filter invoices'))
   }
 
   ngAfterViewChecked() {
@@ -74,7 +87,8 @@ export class InvoiceListingComponent implements OnInit, AfterViewInit, AfterView
             page: this.paginator.pageIndex,
             perPage: this.paginator.pageSize,
             sortField: this.sort.active,
-            sortDir: this.sort.direction
+            sortDir: this.sort.direction,
+            filter: ''
           })
         }),
         map(data => {

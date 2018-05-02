@@ -1,6 +1,6 @@
 <mat-toolbar>
   <mat-form-field color="accent">
-    <input matInput (keyup)="filterText($event)" placeholder="Filter" />
+    <input matInput (keyup)="filterText($event.target.value)" placeholder="Filter" />
   </mat-form-field>
   <div class="menu-bar">
     <button mat-button (click)="saveBtnHanlder()">
