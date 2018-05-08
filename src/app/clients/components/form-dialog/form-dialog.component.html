@@ -1,9 +1,18 @@
 <h1 mat-dialog-title>Hi {{data.name}}</h1>
 <div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="data.animal">
-  </mat-form-field>
+
+  <form class="form-container" [formGroup]="clientForm">
+    {{this.clientForm.value | json}}
+    <mat-form-field color="accent">
+      <input matInput formControlName="firstName" placeholder="FirstName">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput formControlName="lastName" placeholder="LastName">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput formControlName="email" placeholder="Email">
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
