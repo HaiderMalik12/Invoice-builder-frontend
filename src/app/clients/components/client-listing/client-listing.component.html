@@ -1,3 +1,20 @@
-<mat-card>
-  <h1>Client Listing!</h1>
-</mat-card>
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef> FirstName </mat-header-cell>
+      <mat-cell *matCellDef="let client"> {{client.firstName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef> LastName </mat-header-cell>
+      <mat-cell *matCellDef="let client"> {{client.lastName}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email</mat-header-cell>
+      <mat-cell *matCellDef="let client"> {{client.email}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
