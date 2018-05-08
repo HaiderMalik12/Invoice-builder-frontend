@@ -11,6 +11,7 @@ import { ClientService } from "../../services/client.service";
 export class FormDialogComponent implements OnInit {
 
   clientForm: FormGroup;
+  title = 'New Client'
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -19,13 +20,11 @@ export class FormDialogComponent implements OnInit {
     private snackBar: MatSnackBar) { }
 
   onNoClick(): void {
-    debugger;
     this.dialogRef.close();
   }
 
   ngOnInit() {
     this.initClientForm();
-    debugger;
     console.log(this.data);
     if (this.data && this.data.clientId) {
       this.setClientToForm(this.data.clientId)
@@ -33,6 +32,7 @@ export class FormDialogComponent implements OnInit {
   }
 
   private setClientToForm(clientId) {
+    this.title = 'Edit Client';
     this.clientService
       .getClient(clientId)
       .subscribe(client => {
