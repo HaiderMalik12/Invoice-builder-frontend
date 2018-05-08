@@ -22,6 +22,8 @@ export class FormDialogComponent implements OnInit {
 
   ngOnInit() {
     this.initClientForm();
+    debugger;
+    console.log(this.data);
   }
 
   private initClientForm() {

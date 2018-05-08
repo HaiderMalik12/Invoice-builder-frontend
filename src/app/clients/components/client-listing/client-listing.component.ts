@@ -29,18 +29,20 @@ export class ClientListingComponent implements OnInit {
   saveBtnHanlder() {
 
   }
-  editBtnHandler(clientId) {
-    console.log(clientId)
-  }
+
   deleteBtnHandler(clientId) {
     console.log(clientId)
   }
-  openDialog(): void {
-    let dialogRef = this.dialog.open(FormDialogComponent, {
+  openDialog(clientId: string): void {
+    const options = {
       width: '400px',
-      height: '300px'
-    });
-
+      height: '300px',
+      data: {}
+    }
+    if (clientId) {
+      options.data = { clientId: clientId }
+    }
+    let dialogRef = this.dialog.open(FormDialogComponent, options);
     dialogRef.afterClosed()
       .filter(clientParam => typeof clientParam === 'object')
       .flatMap(result => {
