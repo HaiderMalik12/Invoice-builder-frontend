@@ -46,13 +46,29 @@ export class ClientListingComponent implements OnInit {
     dialogRef.afterClosed()
       .filter(clientParam => typeof clientParam === 'object')
       .flatMap(result => {
+        //if clientId
         debugger;
-        return this.clientService.createClient(result)
+        if (clientId) {
+          return this.clientService.updateClient(clientId, result)
+        }
+        else {
+          return this.clientService.createClient(result)
+        }
       })
-      .subscribe(data => {
-        this.dataSource.data.push(data);
+      .subscribe(client => {
+        debugger;
+        let successMsg = '';
+        if (clientId) {
+          const index = this.dataSource.data.findIndex(client => client._id === clientId);
+          this.dataSource.data[index] = client;
+          successMsg = 'Client updated'
+        }
+        else {
+          this.dataSource.data.push(client);
+          successMsg = 'Client created'
+        }
         this.dataSource.data = [...this.dataSource.data];
-        this.snackBar.open('Created Client', 'Success', {
+        this.snackBar.open(successMsg, 'Success', {
           duration: 2000
         })
       }, err => this.errorHandler(err, 'Failed to created Client'))
