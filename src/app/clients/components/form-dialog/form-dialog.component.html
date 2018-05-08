@@ -5,16 +5,21 @@
     {{this.clientForm.value | json}}
     <mat-form-field color="accent">
       <input matInput formControlName="firstName" placeholder="FirstName">
+      <mat-error *ngIf="clientForm.controls.firstName.invalid && clientForm.controls.firstName.touched"> FirstName is required</mat-error>
     </mat-form-field>
     <mat-form-field color="accent">
       <input matInput formControlName="lastName" placeholder="LastName">
+      <mat-error *ngIf="clientForm.controls.lastName.invalid && clientForm.controls.lastName.touched"> LastName is required</mat-error>
+
     </mat-form-field>
     <mat-form-field color="accent">
       <input matInput formControlName="email" placeholder="Email">
+      <mat-error *ngIf="clientForm.controls.email.invalid && clientForm.controls.email.touched"> Email is required</mat-error>
+
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Save</button>
+  <button mat-button (click)="onNoClick()">Cancel</button>
 </div>
