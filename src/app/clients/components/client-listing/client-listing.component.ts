@@ -10,7 +10,7 @@ import 'rxjs/add/operator/mergeMap';
   styleUrls: ['./client-listing.component.scss']
 })
 export class ClientListingComponent implements OnInit {
-  displayedColumns = ['firstName', 'lastName', 'email'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'action'];
   dataSource = new MatTableDataSource<Client>();
   isResultsLoading = false
   constructor(private clientService: ClientService,
@@ -28,6 +28,12 @@ export class ClientListingComponent implements OnInit {
   }
   saveBtnHanlder() {
 
+  }
+  editBtnHandler(clientId) {
+    console.log(clientId)
+  }
+  deleteBtnHandler(clientId) {
+    console.log(clientId)
   }
   openDialog(): void {
     let dialogRef = this.dialog.open(FormDialogComponent, {
