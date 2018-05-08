@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClientListingComponent, DialogOverviewExampleDialog } from './components/client-listing/client-listing.component';
+import { ClientListingComponent } from './components/client-listing/client-listing.component';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientService } from './services/client.service';
+import { ClientFormDialog } from './components/client-dialog-form';
 
 @NgModule({
   imports: [
@@ -13,9 +14,9 @@ import { ClientService } from './services/client.service';
     HttpClientModule,
     MaterialModule
   ],
-  declarations: [ClientListingComponent, DialogOverviewExampleDialog],
+  declarations: [ClientListingComponent, ClientFormDialog],
   exports: [ClientListingComponent],
   providers: [ClientService],
-  entryComponents: [DialogOverviewExampleDialog]
+  entryComponents: [ClientFormDialog]
 })
 export class ClientsModule { }

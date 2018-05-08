@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ClientService } from '../../services/client.service';
 import { MatTableDataSource, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Client } from '../../models/client';
+import { ClientFormDialog } from '../client-dialog-form';
 
 @Component({
   selector: 'app-client-listing',
@@ -29,7 +30,7 @@ export class ClientListingComponent implements OnInit {
   animal: string;
   name: string;
   openDialog(): void {
-    let dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    let dialogRef = this.dialog.open(ClientFormDialog, {
       width: '250px',
       data: { name: this.name, animal: this.animal }
     });
@@ -38,31 +39,6 @@ export class ClientListingComponent implements OnInit {
       console.log('The dialog was closed');
       this.animal = result;
     });
-  }
-
-}
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  template: `<h1 mat-dialog-title>Hi {{data.name}}</h1>
-  <div mat-dialog-content>
-    <p>What's your favorite animal?</p>
-    <mat-form-field>
-      <input matInput [(ngModel)]="data.animal">
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
-  </div>`,
-})
-export class DialogOverviewExampleDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
 }
