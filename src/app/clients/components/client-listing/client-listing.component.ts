@@ -33,7 +33,11 @@ export class ClientListingComponent implements OnInit {
     });
 
     dialogRef.afterClosed()
-      .flatMap(result => this.clientService.createClient(result))
+      .filter(clientParam => typeof clientParam === 'object')
+      .flatMap(result => {
+        debugger;
+        return this.clientService.createClient(result)
+      })
       .subscribe(data => {
         this.dataSource.data.push(data);
         this.dataSource.data = [...this.dataSource.data];
