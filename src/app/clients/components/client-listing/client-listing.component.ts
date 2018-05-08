@@ -12,16 +12,19 @@ import 'rxjs/add/operator/mergeMap';
 export class ClientListingComponent implements OnInit {
   displayedColumns = ['firstName', 'lastName', 'email'];
   dataSource = new MatTableDataSource<Client>();
+  isResultsLoading = false
   constructor(private clientService: ClientService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    this.isResultsLoading = true;
     this.clientService.getClients()
       .subscribe(data => {
         console.log(data)
         this.dataSource.data = data;
-      }, err => console.error(err));
+      }, err => console.error(err),
+        () => this.isResultsLoading = false);
   }
   saveBtnHanlder() {
 
