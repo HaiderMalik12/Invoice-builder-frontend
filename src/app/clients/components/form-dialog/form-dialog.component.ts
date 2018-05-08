@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from "@angular/material";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ClientService } from "../../services/client.service";
 
 @Component({
   selector: 'app-form-dialog',
@@ -13,7 +14,9 @@ export class FormDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private clientService: ClientService,
+    private snackBar: MatSnackBar) { }
 
   onNoClick(): void {
     debugger;
@@ -24,6 +27,17 @@ export class FormDialogComponent implements OnInit {
     this.initClientForm();
     debugger;
     console.log(this.data);
+    if (this.data && this.data.clientId) {
+      this.setClientToForm(this.data.clientId)
+    }
+  }
+
+  private setClientToForm(clientId) {
+    this.clientService
+      .getClient(clientId)
+      .subscribe(client => {
+        this.clientForm.patchValue(client);
+      }, err => this.errorHandler(err, 'Failed to load client'))
   }
 
   private initClientForm() {
@@ -31,6 +45,12 @@ export class FormDialogComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', Validators.required],
+    });
+  }
+  private errorHandler(error, message) {
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
     });
   }
 }
