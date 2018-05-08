@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ClientService } from '../../services/client.service';
-import { MatTableDataSource, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MatTableDataSource, MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Client } from '../../models/client';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
-
+import 'rxjs/add/operator/mergeMap';
 @Component({
   selector: 'app-client-listing',
   templateUrl: './client-listing.component.html',
@@ -13,7 +13,8 @@ export class ClientListingComponent implements OnInit {
   displayedColumns = ['firstName', 'lastName', 'email'];
   dataSource = new MatTableDataSource<Client>();
   constructor(private clientService: ClientService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.clientService.getClients()
@@ -25,21 +26,26 @@ export class ClientListingComponent implements OnInit {
   saveBtnHanlder() {
 
   }
-
-  //
-  animal: string;
-  name: string;
   openDialog(): void {
     let dialogRef = this.dialog.open(FormDialogComponent, {
       width: '400px',
-      height: '300px',
-      data: { name: this.name, animal: this.animal }
+      height: '300px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      debugger;
-      console.log('The dialog was closed');
-      console.log(result)
+    dialogRef.afterClosed()
+      .flatMap(result => this.clientService.createClient(result))
+      .subscribe(data => {
+        this.dataSource.data.push(data);
+        this.dataSource.data = [...this.dataSource.data];
+        this.snackBar.open('Created Client', 'Success', {
+          duration: 2000
+        })
+      }, err => this.errorHandler(err, 'Failed to created Client'))
+  }
+  private errorHandler(error, message) {
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
     });
   }
 
