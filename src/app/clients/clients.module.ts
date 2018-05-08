@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientService } from './services/client.service';
-import { ClientFormDialog } from './components/client-dialog-form';
+import { FormDialogComponent } from './components/form-dialog/form-dialog.component';
 
 @NgModule({
   imports: [
@@ -14,9 +14,9 @@ import { ClientFormDialog } from './components/client-dialog-form';
     HttpClientModule,
     MaterialModule
   ],
-  declarations: [ClientListingComponent, ClientFormDialog],
+  declarations: [ClientListingComponent, FormDialogComponent],
   exports: [ClientListingComponent],
   providers: [ClientService],
-  entryComponents: [ClientFormDialog]
+  entryComponents: [FormDialogComponent]
 })
 export class ClientsModule { }

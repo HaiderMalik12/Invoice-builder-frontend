@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ClientService } from '../../services/client.service';
 import { MatTableDataSource, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { Client } from '../../models/client';
-import { ClientFormDialog } from '../client-dialog-form';
+import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 
 @Component({
   selector: 'app-client-listing',
@@ -30,7 +30,7 @@ export class ClientListingComponent implements OnInit {
   animal: string;
   name: string;
   openDialog(): void {
-    let dialogRef = this.dialog.open(ClientFormDialog, {
+    let dialogRef = this.dialog.open(FormDialogComponent, {
       width: '400px',
       height: '300px',
       data: { name: this.name, animal: this.animal }
