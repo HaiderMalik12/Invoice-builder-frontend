@@ -1,4 +1,4 @@
-.example-container {
+.table-container {
   display: flex;
   flex-direction: column;
   max-height: 500px;
@@ -8,4 +8,11 @@
 .mat-table {
   overflow: auto;
   max-height: 500px;
+}
+
+.menu-bar {
+  position: absolute;
+  right: 60px;
+  color: rgb(255, 255, 255);
+  background-color: #ff4081;
 }
