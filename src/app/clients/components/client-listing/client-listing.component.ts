@@ -4,6 +4,7 @@ import { MatTableDataSource, MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackB
 import { Client } from '../../models/client';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import 'rxjs/add/operator/mergeMap';
+import { remove } from 'lodash';
 @Component({
   selector: 'app-client-listing',
   templateUrl: './client-listing.component.html',
@@ -31,7 +32,16 @@ export class ClientListingComponent implements OnInit {
   }
 
   deleteBtnHandler(clientId) {
-    console.log(clientId)
+    this.clientService.deleteClient(clientId)
+      .subscribe(data => {
+        const removedItems = remove(this.dataSource.data, (item) => {
+          return item._id === data._id
+        });
+        this.dataSource.data = [...this.dataSource.data];
+        this.snackBar.open('Client deleted', 'Success', {
+          duration: 2000
+        })
+      }, err => this.errorHandler(err, 'Failed to delete client'))
   }
   openDialog(clientId: string): void {
     const options = {
@@ -46,17 +56,9 @@ export class ClientListingComponent implements OnInit {
     dialogRef.afterClosed()
       .filter(clientParam => typeof clientParam === 'object')
       .flatMap(result => {
-        //if clientId
-        debugger;
-        if (clientId) {
-          return this.clientService.updateClient(clientId, result)
-        }
-        else {
-          return this.clientService.createClient(result)
-        }
+        return clientId ? this.clientService.updateClient(clientId, result) : this.clientService.createClient(result)
       })
       .subscribe(client => {
-        debugger;
         let successMsg = '';
         if (clientId) {
           const index = this.dataSource.data.findIndex(client => client._id === clientId);
