@@ -37,8 +37,9 @@ export class ClientListingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      debugger;
       console.log('The dialog was closed');
-      this.animal = result;
+      console.log(result)
     });
   }
 
