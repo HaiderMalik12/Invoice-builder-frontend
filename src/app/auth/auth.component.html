@@ -17,6 +17,14 @@
           </div>
         </form>
       </mat-card-content>
+      <div class="alternative" *ngIf="title === 'Login'">
+        <p>Don't have an account?</p>
+        <button mat-raised-button color="accent" [routerLink]="['/signup']">Signup</button>
+      </div>
+      <div class="alternative" *ngIf="title === 'Signup'">
+        <p>Have an account?</p>
+        <button mat-raised-button color="accent" [routerLink]="['/login']">Login</button>
+      </div>
     </mat-card>
   </div>
 </div>

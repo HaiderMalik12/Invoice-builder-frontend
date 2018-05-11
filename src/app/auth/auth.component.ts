@@ -20,17 +20,22 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    debugger;
     this.title = this.router.url === '/login' ? 'Login' : 'Signup';
   }
 
   onSubmit() {
-    this.authService.login(this.authForm.value)
-      .subscribe(data => {
-        console.log(data);
-        this.jwtService.seToken(data.token)
-        this.router.navigate(['/dashboard', 'invoices']);
-      }, err => console.error(err));
+    //if title is Signup
+    //we need to send the request for Signup
+    if (this.title === 'Signup') {
+      console.log('Signup Process')
+    }
+    else {
+      this.authService.login(this.authForm.value)
+        .subscribe(data => {
+          this.jwtService.seToken(data.token)
+          this.router.navigate(['/dashboard', 'invoices']);
+        }, err => console.error(err));
+    }
   }
   private initForm() {
     this.authForm = this.fb.group({
