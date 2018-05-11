@@ -1,7 +1,7 @@
 <div class="limiter">
   <div class="container-login">
     <mat-card>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>{{title}}</mat-card-title>
       <mat-card-content>
         <form class="form-container" [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()">
           <mat-form-field color="accent"  >
@@ -13,7 +13,7 @@
             <mat-error *ngIf="authForm.controls.password.invalid && authForm.controls.password.touched"> password is required</mat-error>
           </mat-form-field>
           <div>
-            <button mat-raised-button [disabled]="!authForm.valid" type="submit" color="accent">Login</button>
+            <button mat-raised-button [disabled]="!authForm.valid" type="submit" color="accent">{{title}}</button>
           </div>
         </form>
       </mat-card-content>

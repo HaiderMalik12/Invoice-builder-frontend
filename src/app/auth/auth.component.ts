@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
   authForm: FormGroup;
+  title = '';
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private jwtService: JwtService,
@@ -19,6 +20,8 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    debugger;
+    this.title = this.router.url === '/login' ? 'Login' : 'Signup';
   }
 
   onSubmit() {
