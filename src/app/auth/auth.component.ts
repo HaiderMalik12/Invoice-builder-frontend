@@ -27,7 +27,11 @@ export class AuthComponent implements OnInit {
     //if title is Signup
     //we need to send the request for Signup
     if (this.title === 'Signup') {
-      console.log('Signup Process')
+      this.authService.signup(this.authForm.value)
+        .subscribe(data => {
+          console.log(data);
+          this.router.navigate(['/dashboard', 'invoices']);
+        }, err => console.log(err));
     }
     else {
       this.authService.login(this.authForm.value)
