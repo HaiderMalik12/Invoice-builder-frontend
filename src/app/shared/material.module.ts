@@ -17,7 +17,8 @@ import {
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 } from '@angular/material';
 const exportedMatModules = [
   MatButtonModule,
@@ -36,7 +37,8 @@ const exportedMatModules = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,
-  MatDialogModule
+  MatDialogModule,
+  MatSelectModule
 ];
 @NgModule({
   imports: [CommonModule, ...exportedMatModules],

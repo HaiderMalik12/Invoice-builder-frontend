@@ -4,6 +4,8 @@ import { InvoiceService } from '../../services/invoice.service';
 import { MatSnackBar, ICON_REGISTRY_PROVIDER } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Invoice } from '../../models/invoice';
+import { ClientService } from '../../../clients/services/client.service';
+import { Client } from '../../../clients/models/client';
 
 @Component({
   selector: 'app-invoice-form',
@@ -13,17 +15,20 @@ import { Invoice } from '../../models/invoice';
 export class InvoiceFormComponent implements OnInit {
   private invoice: Invoice;
   invoiceForm: FormGroup;
+  clients: Client[] = [];
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     public snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clientService: ClientService
   ) { }
 
   ngOnInit() {
     this.createForm();
     this.setInvoiceToForm();
+    this.setClients();
   }
   onSubmit() {
     //user wants to edit the invoice
@@ -67,12 +72,19 @@ export class InvoiceFormComponent implements OnInit {
       })
 
   }
+  private setClients() {
+    this.clientService.getClients()
+      .subscribe(clients => {
+        this.clients = clients;
+      }, err => this.errorHandler(err, 'Failed to get Clients'))
+  }
   private createForm() {
     this.invoiceForm = this.fb.group({
       item: ['', Validators.required],
       date: ['', Validators.required],
       due: ['', Validators.required],
       qty: ['', Validators.required],
+      client: ['', Validators.required],
       rate: '',
       tax: ''
     });
