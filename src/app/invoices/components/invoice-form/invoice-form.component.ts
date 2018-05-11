@@ -65,12 +65,11 @@ export class InvoiceFormComponent implements OnInit {
           return;
         }
         this.title = 'Edit Invoice';
-        this.invoiceService.getInvoice(id)
-          .subscribe(invoice => {
-            this.invoice = invoice;
-            this.invoiceForm.patchValue(this.invoice);
-
-          }, err => this.errorHandler(err, 'Failed to get Invoice'));
+        this.route.data.subscribe((data: { invoice: Invoice }) => {
+          debugger;
+          this.invoice = data.invoice;
+          this.invoiceForm.patchValue(this.invoice);
+        })
       })
 
   }
