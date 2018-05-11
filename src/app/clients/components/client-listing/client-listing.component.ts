@@ -24,7 +24,7 @@ export class ClientListingComponent implements OnInit {
       .subscribe(data => {
         console.log(data)
         this.dataSource.data = data;
-      }, err => console.error(err),
+      }, err => this.errorHandler(err, 'Ops!, something went wrong'),
         () => this.isResultsLoading = false);
   }
   saveBtnHanlder() {
@@ -76,6 +76,7 @@ export class ClientListingComponent implements OnInit {
       }, err => this.errorHandler(err, 'Failed to created Client'))
   }
   private errorHandler(error, message) {
+    this.isResultsLoading = false;
     console.error(error);
     this.snackBar.open(message, 'Error', {
       duration: 2000
