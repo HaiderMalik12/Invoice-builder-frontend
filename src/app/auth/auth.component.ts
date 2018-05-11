@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { JwtService } from '../core/services/jwt.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +17,8 @@ export class AuthComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private jwtService: JwtService,
-    private router: Router) { }
+    private router: Router,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.initForm();
@@ -31,14 +33,14 @@ export class AuthComponent implements OnInit {
         .subscribe(data => {
           console.log(data);
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => console.log(err));
+        }, err => this.errorHandler(err, 'Opps, something went wrong'));
     }
     else {
       this.authService.login(this.authForm.value)
         .subscribe(data => {
           this.jwtService.seToken(data.token)
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => console.error(err));
+        }, err => this.errorHandler(err, 'Opps, something went wrong'));
     }
   }
   private initForm() {
@@ -47,5 +49,11 @@ export class AuthComponent implements OnInit {
       password: ['', Validators.required]
     })
   }
-
+  private errorHandler(error, message) {
+    // this.isResultsLoading = false;
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
+    });
+  }
 }
