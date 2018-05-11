@@ -17,6 +17,8 @@ import { InvoiceFormComponent } from './components/invoice-form/invoice-form.com
   ],
   declarations: [InvoiceListingComponent, InvoiceFormComponent],
   exports: [InvoiceListingComponent, InvoiceFormComponent],
-  providers: [InvoiceService]
+  providers: [
+    InvoiceService
+  ]
 })
-export class InvoicesModule {}
+export class InvoicesModule { }
