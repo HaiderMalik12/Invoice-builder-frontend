@@ -7,6 +7,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { InvoicesModule } from '../invoices/invoices.module';
 import { ClientsModule } from '../clients/clients.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from '../core';
 
 @NgModule({
   imports: [
@@ -16,6 +18,9 @@ import { ClientsModule } from '../clients/clients.module';
     ClientsModule,
     MaterialModule
   ],
-  declarations: [DashboardComponent, SideNavComponent, ToolbarComponent]
+  declarations: [DashboardComponent, SideNavComponent, ToolbarComponent],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true
+  }]
 })
-export class DashboardModule {}
+export class DashboardModule { }

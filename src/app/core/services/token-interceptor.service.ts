@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { JwtService } from './jwt.service';
 
 @Injectable()
-export class HttpInterceptorService implements HttpInterceptor {
+export class TokenInterceptorService implements HttpInterceptor {
 
   constructor(private jwtService: JwtService) { }
 
@@ -13,11 +13,12 @@ export class HttpInterceptorService implements HttpInterceptor {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
+    debugger;
     const token = this.jwtService.getToken()
     if (token) {
       headersConfig['Authorization'] = `bearer ${token}`
     }
     const _req = req.clone({ setHeaders: headersConfig });
-    next.handle(_req);
+    return next.handle(_req);
   }
 }
