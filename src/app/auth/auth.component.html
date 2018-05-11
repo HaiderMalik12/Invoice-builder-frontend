@@ -1,6 +1,11 @@
 <div class="limiter">
   <div class="container-login">
     <mat-card>
+      <div *ngIf="isResultsLoading" class="mat-elevation-z8">
+        <div class="loading-shade">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </div>
       <mat-card-title>{{title}}</mat-card-title>
       <mat-card-content>
         <form class="form-container" [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()">

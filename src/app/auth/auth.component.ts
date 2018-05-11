@@ -14,6 +14,7 @@ export class AuthComponent implements OnInit {
 
   authForm: FormGroup;
   title = '';
+  isResultsLoading = false;
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private jwtService: JwtService,
@@ -29,18 +30,22 @@ export class AuthComponent implements OnInit {
     //if title is Signup
     //we need to send the request for Signup
     if (this.title === 'Signup') {
+      this.isResultsLoading = true
       this.authService.signup(this.authForm.value)
         .subscribe(data => {
           console.log(data);
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => this.errorHandler(err, 'Opps, something went wrong'));
+        }, err => this.errorHandler(err, 'Opps, something went wrong'),
+          () => this.isResultsLoading = false);
     }
     else {
+      this.isResultsLoading = true;
       this.authService.login(this.authForm.value)
         .subscribe(data => {
           this.jwtService.seToken(data.token)
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => this.errorHandler(err, 'Opps, something went wrong'));
+        }, err => this.errorHandler(err, 'Opps, something went wrong'),
+          () => this.isResultsLoading = false);
     }
   }
   private initForm() {
@@ -50,7 +55,7 @@ export class AuthComponent implements OnInit {
     })
   }
   private errorHandler(error, message) {
-    // this.isResultsLoading = false;
+    this.isResultsLoading = false;
     console.error(error);
     this.snackBar.open(message, 'Error', {
       duration: 2000
