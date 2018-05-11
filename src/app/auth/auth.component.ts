@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
+import { JwtService } from '../core/services/jwt.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -11,18 +13,20 @@ export class AuthComponent implements OnInit {
 
   authForm: FormGroup;
   constructor(private fb: FormBuilder,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private jwtService: JwtService,
+    private router: Router) { }
 
   ngOnInit() {
     this.initForm();
   }
 
   onSubmit() {
-    console.log(this.authForm.value)
-    //send the request to tbackend serve
     this.authService.login(this.authForm.value)
       .subscribe(data => {
         console.log(data);
+        this.jwtService.seToken(data.token)
+        this.router.navigate(['/dashboard', 'invoices']);
       }, err => console.error(err));
   }
   private initForm() {

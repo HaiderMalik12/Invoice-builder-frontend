@@ -3,3 +3,8 @@ export class User {
   email: string;
   password: string;
 }
+
+export interface LoginRsp {
+  success: boolean;
+  token: string
+}
