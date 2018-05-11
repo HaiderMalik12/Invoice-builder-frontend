@@ -1,9 +1,18 @@
 <mat-toolbar color="accent">
-  <button mat-button (click) = "toggleSidenav.emit()"
-  class="sidenav-toggle">
-   <mat-icon>
-     menu
-   </mat-icon>
+  <button mat-button (click)="toggleSidenav.emit()" class="sidenav-toggle">
+    <mat-icon>
+      menu
+    </mat-icon>
   </button>
- <span>Invoice Builder</span>
+  <span>Invoice Builder</span>
+  <div class="menu-bar">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
