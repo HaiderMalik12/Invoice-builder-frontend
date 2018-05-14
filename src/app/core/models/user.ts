@@ -6,9 +6,13 @@ export class User {
 
 export interface LoginRsp {
   success: boolean;
-  token: string
+  token: string;
 }
 export interface SignupRsp {
   success: boolean;
   message: string;
+}
+
+export interface LogoutRsp {
+  success: true;
 }
