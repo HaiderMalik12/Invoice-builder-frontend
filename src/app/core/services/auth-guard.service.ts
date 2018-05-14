@@ -6,37 +6,55 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
-import { JwtService } from '.';
+import { JwtService, AuthService } from '.';
+import { Observable } from 'rxjs/Observable';
+import { map, catchError } from 'rxjs/operators';
+import { of as ObservableOf } from 'rxjs/observable/of';
 
 @Injectable()
 export class AuthGuardService implements CanActivate, CanActivateChild {
-  constructor(private jwtService: JwtService, private router: Router) {}
+  constructor(
+    private jwtService: JwtService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
+  ): Observable<boolean> {
     if (this.jwtService.getToken()) {
-      return true;
+      return Observable.of(true);
     }
     //extract the token
     const token = route.queryParamMap.get('token');
     debugger;
     if (token) {
-      //if token then authenticated the user
-      //if authenticated return ture
-      //otherwise return false
+      return this.authService.isAuthenticated(token).pipe(
+        map(authenticated => {
+          if (authenticated === true) {
+            this.jwtService.seToken(token);
+            return true;
+          }
+          this.router.navigate(['/login']);
+          return false;
+        }),
+        catchError((err: any) => {
+          this.router.navigate(['/login']);
+          return ObservableOf(false);
+        })
+      );
     }
     //authenticati
     else {
       this.router.navigate(['/login']);
-      return false;
+      return Observable.of(false);
     }
   }
   canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
+  ): Observable<boolean> {
     return this.canActivate(route, state);
   }
 }
