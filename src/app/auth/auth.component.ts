@@ -11,48 +11,61 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-
   authForm: FormGroup;
   title = '';
   isResultsLoading = false;
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private jwtService: JwtService,
     private router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.initForm();
     this.title = this.router.url === '/login' ? 'Login' : 'Signup';
   }
 
+  googleAuthHandler() {
+    this.authService.googleAuth().subscribe(
+      data => {
+        console.log(data);
+      },
+      err => this.errorHandler(err, 'Opps, something went wrong')
+    );
+  }
+
   onSubmit() {
     //if title is Signup
     //we need to send the request for Signup
     if (this.title === 'Signup') {
-      this.isResultsLoading = true
-      this.authService.signup(this.authForm.value)
-        .subscribe(data => {
+      this.isResultsLoading = true;
+      this.authService.signup(this.authForm.value).subscribe(
+        data => {
           console.log(data);
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => this.errorHandler(err, 'Opps, something went wrong'),
-          () => this.isResultsLoading = false);
-    }
-    else {
+        },
+        err => this.errorHandler(err, 'Opps, something went wrong'),
+        () => (this.isResultsLoading = false)
+      );
+    } else {
       this.isResultsLoading = true;
-      this.authService.login(this.authForm.value)
-        .subscribe(data => {
-          this.jwtService.seToken(data.token)
+      this.authService.login(this.authForm.value).subscribe(
+        data => {
+          this.jwtService.seToken(data.token);
           this.router.navigate(['/dashboard', 'invoices']);
-        }, err => this.errorHandler(err, 'Opps, something went wrong'),
-          () => this.isResultsLoading = false);
+        },
+        err => this.errorHandler(err, 'Opps, something went wrong'),
+        () => (this.isResultsLoading = false)
+      );
     }
   }
   private initForm() {
     this.authForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-    })
+    });
   }
   private errorHandler(error, message) {
     this.isResultsLoading = false;

@@ -19,6 +19,7 @@
           </mat-form-field>
           <div>
             <button mat-raised-button [disabled]="!authForm.valid" type="submit" color="accent">{{title}}</button>
+            <button mat-raised-button (click)="googleAuthHandler()">Google</button>
           </div>
         </form>
       </mat-card-content>

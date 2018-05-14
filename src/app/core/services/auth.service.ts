@@ -15,4 +15,7 @@ export class AuthService {
   signup(body: User): Observable<SignupRsp> {
     return this.httpClient.post<SignupRsp>(`${environment.api_url}/users/signup`, body)
   }
+  googleAuth(): Observable<LoginRsp>{
+    return this.httpClient.get<LoginRsp>(`${environment.api_url}/auth/google`);
+  }
 }
