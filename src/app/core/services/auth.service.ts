@@ -6,16 +6,26 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   login(body: User): Observable<LoginRsp> {
-    return this.httpClient.post<LoginRsp>(`${environment.api_url}/users/login`, body)
+    return this.httpClient.post<LoginRsp>(
+      `${environment.api_url}/users/login`,
+      body
+    );
   }
   signup(body: User): Observable<SignupRsp> {
-    return this.httpClient.post<SignupRsp>(`${environment.api_url}/users/signup`, body)
+    return this.httpClient.post<SignupRsp>(
+      `${environment.api_url}/users/signup`,
+      body
+    );
   }
-  googleAuth(): Observable<LoginRsp>{
+  googleAuth(): Observable<LoginRsp> {
     return this.httpClient.get<LoginRsp>(`${environment.api_url}/auth/google`);
+  }
+  isAuthenticated(): Observable<boolean> {
+    return this.httpClient.get<boolean>(
+      `${environment.api_url}/auth/authenticate`
+    );
   }
 }
