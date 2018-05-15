@@ -27,7 +27,10 @@ const routes: Routes = [
       {
         path: 'invoices/:id/view',
         component: InvoiceViewComponent,
-        canActivateChild: [AuthGuardService]
+        canActivateChild: [AuthGuardService],
+        resolve: {
+          invoice: EditInvoiceResolverService
+        }
       },
       {
         path: 'invoices/:id',
@@ -55,4 +58,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

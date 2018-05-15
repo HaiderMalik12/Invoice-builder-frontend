@@ -24,7 +24,7 @@ export class InvoiceFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private clientService: ClientService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.createForm();
@@ -36,14 +36,16 @@ export class InvoiceFormComponent implements OnInit {
     if (this.invoice) {
       this.invoiceService
         .updateInvoice(this.invoice._id, this.invoiceForm.value)
-        .subscribe(data => {
-          this.snackBar.open('Invoice updated', 'Success', {
-            duration: 2000
-          });
-          this.router.navigate(['dashboard', 'invoices']);
-        }, err => this.errorHandler(err, 'Failed to update invoice'));
-    }
-    else {
+        .subscribe(
+          data => {
+            this.snackBar.open('Invoice updated', 'Success', {
+              duration: 2000
+            });
+            this.router.navigate(['dashboard', 'invoices']);
+          },
+          err => this.errorHandler(err, 'Failed to update invoice')
+        );
+    } else {
       this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
         data => {
           this.snackBar.open('Invoice created!', 'Success', {
@@ -58,25 +60,35 @@ export class InvoiceFormComponent implements OnInit {
   }
   private setInvoiceToForm() {
     //get the id of the invoice
-    this.route.params
-      .subscribe(params => {
-        let id = params['id'];
-        if (!id) {
-          return;
-        }
-        this.title = 'Edit Invoice';
-        this.route.data.subscribe((data: { invoice: Invoice }) => {
-          this.invoice = data.invoice;
-          this.invoiceForm.patchValue(this.invoice);
-        })
-      })
+    this.route.params.subscribe(params => {
+      let id = params['id'];
+      if (!id) {
+        return;
+      }
+      this.title = 'Edit Invoice';
+      this.route.data.subscribe((data: { invoice: Invoice }) => {
+        this.invoice = data.invoice;
+        debugger;
 
+        this.invoiceForm.patchValue({
+          item: this.invoice.item,
+          qty: this.invoice.qty,
+          date: this.invoice.date,
+          due: this.invoice.due,
+          rate: this.invoice.rate,
+          tax: this.invoice.tax,
+          client: this.invoice.client._id
+        });
+      });
+    });
   }
   private setClients() {
-    this.clientService.getClients()
-      .subscribe(clients => {
+    this.clientService.getClients().subscribe(
+      clients => {
         this.clients = clients;
-      }, err => this.errorHandler(err, 'Failed to get Clients'))
+      },
+      err => this.errorHandler(err, 'Failed to get Clients')
+    );
   }
   private createForm() {
     this.invoiceForm = this.fb.group({
