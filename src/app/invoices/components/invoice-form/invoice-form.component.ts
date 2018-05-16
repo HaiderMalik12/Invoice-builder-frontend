@@ -68,16 +68,17 @@ export class InvoiceFormComponent implements OnInit {
       this.title = 'Edit Invoice';
       this.route.data.subscribe((data: { invoice: Invoice }) => {
         this.invoice = data.invoice;
-        debugger;
 
+        if (this.invoice.client) {
+          this.invoiceForm.patchValue({ client: this.invoice.client._id });
+        }
         this.invoiceForm.patchValue({
           item: this.invoice.item,
           qty: this.invoice.qty,
           date: this.invoice.date,
           due: this.invoice.due,
           rate: this.invoice.rate,
-          tax: this.invoice.tax,
-          client: this.invoice.client._id
+          tax: this.invoice.tax
         });
       });
     });
