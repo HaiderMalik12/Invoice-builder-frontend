@@ -30,4 +30,9 @@ export class InvoiceService {
   updateInvoice(id: string, body: Invoice) {
     return this.httpClient.put<Invoice>(`${BASE_URL}/invoices/${id}`, body);
   }
+  downloadInvoice(id: string){
+    return this.httpClient.get(`${BASE_URL}/invoices/${id}/download`,{
+      responseType: 'blob' //response type is used to read binary data
+    })
+  }
 }

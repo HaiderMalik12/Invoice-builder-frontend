@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { Invoice } from '../../models/invoice';
+import { InvoiceService } from '../../services/invoice.service';
 
 @Component({
   selector: 'app-invoice-view',
@@ -10,7 +12,10 @@ import { Invoice } from '../../models/invoice';
 export class InvoiceViewComponent implements OnInit {
   invoice: Invoice;
   total: number;
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private invoiceService: InvoiceService
+  ) {}
 
   ngOnInit() {
     this.route.data.subscribe((data: { invoice: Invoice }) => {
@@ -28,5 +33,15 @@ export class InvoiceViewComponent implements OnInit {
       }
       this.total += salesTax;
     });
+  }
+  downloadHandler(id) {
+    this.invoiceService.downloadInvoice(id).subscribe(
+      data => {
+        saveAs(data, this.invoice.item);
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
 }
