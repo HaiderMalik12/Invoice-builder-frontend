@@ -4,6 +4,7 @@ import { AuthService } from '../core/services/auth.service';
 import { JwtService } from '../core/services/jwt.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { User } from '../core';
 
 @Component({
   selector: 'app-auth',
@@ -43,15 +44,17 @@ export class AuthComponent implements OnInit {
       this.isResultsLoading = true;
       this.authService.signup(this.authForm.value).subscribe(
         data => {
-          console.log(data);
-          this.router.navigate(['/dashboard', 'invoices']);
+          this.snackBar.open('Signup successful','Success',{duration:3000})
+          this.router.navigate(['/login']);
         },
         err => this.errorHandler(err, 'Opps, something went wrong'),
         () => (this.isResultsLoading = false)
       );
     } else {
       this.isResultsLoading = true;
-      this.authService.login(this.authForm.value).subscribe(
+      let {email, password} = this.authForm.value;
+      let user: User = {email, password}
+      this.authService.login(user).subscribe(
         data => {
           this.jwtService.seToken(data.token);
           this.router.navigate(['/dashboard', 'invoices']);
@@ -64,7 +67,8 @@ export class AuthComponent implements OnInit {
   private initForm() {
     this.authForm = this.fb.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      name: ''
     });
   }
   private errorHandler(error, message) {
