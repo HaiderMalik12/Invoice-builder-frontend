@@ -10,6 +10,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { JwtService } from './jwt.service';
 import { Router } from '@angular/router';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
