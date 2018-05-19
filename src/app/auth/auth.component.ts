@@ -37,7 +37,7 @@ export class AuthComponent implements OnInit {
     );
   }
   forgotPassHandler(){
-    console.log('Clicked');
+    this.router.navigate(['/forgot-password']);
   }
 
   onSubmit() {
