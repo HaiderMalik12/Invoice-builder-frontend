@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../core';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-forgot-password',
@@ -10,9 +11,11 @@ import { AuthService } from '../../core';
 export class ForgotPasswordComponent implements OnInit {
 
   form : FormGroup;
+  isResultsLoading =false
   constructor(
     private fb: FormBuilder,
-     private authService: AuthService) { }
+     private authService: AuthService,
+     private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.initForm();
@@ -23,12 +26,23 @@ export class ForgotPasswordComponent implements OnInit {
     })
   }
   onSubmit(){
+    this.isResultsLoading = true
    this.authService.forgotPassword(this.form.value)
    .subscribe(data => {
-     console.log(data);
+    //  console.log(data);
+    this.snackBar.open(data.message, 'Success',{
+      duration: 3000
+    })
    },err => {
-     console.error(err);
-   })
+   this.errorHandler(err, 'Something went wrong')
+   },() => this.isResultsLoading= false)
+  }
+  private errorHandler(error, message) {
+    this.isResultsLoading = false;
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
+    });
   }
 
 }
