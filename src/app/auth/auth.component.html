@@ -25,6 +25,7 @@
           </mat-form-field>
           <div>
             <button mat-raised-button class="btn-block" [disabled]="!authForm.valid" type="submit" color="accent">{{title}}</button>
+            <a class="btn btn-block forgot-password" (click) ="forgotPassHandler()">forgot password</a>
             <a href="/api/auth/google" class="btn btn-social btn-block btn-google" mat-button>
               <i class="fa fa-google"></i>
               Login with Google

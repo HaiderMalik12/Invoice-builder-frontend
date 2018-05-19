@@ -9,12 +9,18 @@
 .mat-card {
   position: absolute;
   width: 300px;
-  height: 500px;
+  height: 550px;
   z-index: 10;
   top: 30%;
   left: 50%;
   margin: -100px 0 0 -150px;
   // background: red;
+}
+.forgot-password{
+  color: rgba(43, 50, 57, 0.45);
+  text-decoration: none;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 .alternative {
   margin-top: 20px;

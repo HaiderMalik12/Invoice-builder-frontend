@@ -36,6 +36,9 @@ export class AuthComponent implements OnInit {
       err => this.errorHandler(err, 'Opps, something went wrong')
     );
   }
+  forgotPassHandler(){
+    console.log('Clicked');
+  }
 
   onSubmit() {
     //if title is Signup
