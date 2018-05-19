@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../core';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,12 +12,17 @@ import { MatSnackBar } from '@angular/material';
 export class ResetPasswordComponent implements OnInit {
 
   form: FormGroup;
+  isResultsLoading= false
+  private token ='';
   constructor(private fb: FormBuilder,
              private authService: AuthService,
-             private snackBar: MatSnackBar) { }
+             private snackBar: MatSnackBar,
+            private route: ActivatedRoute,
+           private router: Router) { }
 
   ngOnInit() {
     this.initForm();
+    this.token = this.route.snapshot.params['token'];
   }
   onSubmit(){
     let {password, confirmPassword} = this.form.value;
@@ -26,6 +32,15 @@ export class ResetPasswordComponent implements OnInit {
       });
       return;
     }
+    this.isResultsLoading = true
+    this.authService.resetPassword({token: this.token, password})
+    .subscribe(data => {
+      this.snackBar.open('Password updated successfully', 'Success', {
+        duration: 3000
+      });
+      this.router.navigate(['/login'])
+    }, err =>  this.errorHandler(err, 'Something went wrong'),
+   () =>  this.isResultsLoading= false)
   }
   private initForm(){
     this.form = this.fb.group({
@@ -33,6 +48,12 @@ export class ResetPasswordComponent implements OnInit {
       confirmPassword : ['', Validators.required]
     })
   }
-
+  private errorHandler(error, message) {
+    this.isResultsLoading = false;
+    console.error(error);
+    this.snackBar.open(message, 'Error', {
+      duration: 2000
+    });
+  }
 
 }
