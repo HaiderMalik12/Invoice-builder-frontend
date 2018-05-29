@@ -28,7 +28,7 @@
     <mat-form-field color="accent">
       <input matInput placeholder="Rate" type="number" formControlName="rate">
     </mat-form-field>
-    <mat-form-field colro="accent">
+    <mat-form-field color="accent">
       <mat-select placeholder="Select client" formControlName="client">
         <mat-option *ngFor="let c of clients" [value]="c._id">
           {{ c.firstName }} {{c.lastName}}
